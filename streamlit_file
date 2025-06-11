@@ -1,0 +1,37 @@
+import streamlit as st
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.ensemble import IsolationForest
+
+st.title("📊 Financial Fraud Risk Analysis using 10-K Reports")
+
+uploaded_file = st.file_uploader("Upload Financial Data CSV", type=["csv"])
+if uploaded_file:
+    df = pd.read_csv(uploaded_file)
+    st.subheader("📄 Uploaded Data")
+    st.dataframe(df)
+
+    st.subheader("📈 Summary Statistics")
+    st.write(df.describe())
+
+    if 'Revenue' in df.columns and 'Debt' in df.columns:
+        df['Debt-to-Revenue'] = df['Debt'] / df['Revenue']
+        df['YoY Revenue Growth'] = df['Revenue'].pct_change()
+
+    if all(col in df.columns for col in ['Revenue', 'Net Income', 'Debt']):
+        model = IsolationForest(contamination=0.1)
+        df['Anomaly'] = model.fit_predict(df[['Revenue', 'Net Income', 'Debt']])
+        st.subheader("🔍 Anomaly Detection Results")
+        st.dataframe(df[['Year', 'Revenue', 'Net Income', 'Debt', 'Anomaly']])
+
+    # Visualizations
+    st.subheader("📊 Financial Trends")
+    fig, ax = plt.subplots()
+    df.plot(x='Year', y=['Revenue', 'Net Income', 'Debt'], marker='o', ax=ax)
+    plt.title('Financial Metrics Over Time')
+    plt.grid(True)
+    st.pyplot(fig)
+
+    # Download updated data
+    csv = df.to_csv(index=False).encode('utf-8')
+    st.download_button("Download Processed CSV", csv, "processed_financial_data.csv", "text/csv")
