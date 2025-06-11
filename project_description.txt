@@ -1,0 +1,24 @@
+
+Project: Financial Fraud Risk Analysis using 10-K Reports
+
+Objective:
+To detect financial anomalies and potential fraud indicators by analyzing 10-K filings of public companies using NLP and data analytics.
+
+Steps:
+1. Download 10-K reports from SEC EDGAR for selected companies (e.g., Apple, Tesla).
+2. Clean the HTML content and extract relevant sections like Management’s Discussion and Financial Statements.
+3. Use NLP (tokenization, regex) to extract financial terms, monetary values, and metrics.
+4. Structure data into year-wise values (Revenue, Debt, Net Income, etc.).
+5. Perform financial ratio analysis (YoY growth, debt-to-revenue, etc.).
+6. Apply Isolation Forest to detect anomalies in financial trends.
+7. Visualize financial data trends and anomaly points.
+8. Export results to CSV and generate visual plots for insights.
+
+Tools & Libraries:
+- Python, BeautifulSoup, Pandas, Matplotlib, Scikit-learn, NLTK
+
+Outcome:
+Identified unusual financial behavior such as sudden debt spikes or manipulated revenue trends, potentially signaling accounting irregularities or fraud.
+
+Ideal Use:
+Supports forensic accountants, financial analysts, and regulators in identifying risky firms.
